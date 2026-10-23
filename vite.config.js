@@ -1,10 +1,10 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-export default defineConfig(({ command, isPreview }) => ({
-  // Keep development at /; built assets and preview use the GitHub project path.
+export default defineConfig(({ command, isPreview, mode }) => ({
+  // Netlify serves at /; Pages builds keep the repository path.
   base:
-    command === "build" || isPreview
+    mode !== "netlify" && (command === "build" || isPreview)
       ? "/SWYNEX-Interactive-Web-Application/"
       : "/",
   plugins: [react()],
