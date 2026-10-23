@@ -87,11 +87,11 @@ tests/
   taskflow.spec.js      Browser workflows, accessibility, and responsive tests
   submission.spec.js    Submission regression checks and sidebar synchronization
 scripts/
-  capture-demo.mjs       Isolated demo recording and screenshot capture
+  capture-demo.mjs       Isolated source recording and screenshot capture
 docs/
   verification.md        Actual verification results and limitations
   screenshots/           Fictional-task desktop, mobile, edit, validation images
-  demo/                  Recorded WebM demo
+  demo/                  Final edited MP4 demo
 vite.config.js
 .gitignore
 README.md
@@ -141,14 +141,14 @@ npm run test:e2e
 
 Verification completed on **October 23, 2026**:
 
-| Check                    | Actual result                                                                                                                           |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
-| Utility tests            | 18 passed in the earlier run. Those results were reused because the utility source and utility tests were unchanged.                    |
-| Final `npm run test:e2e` | 41 Chromium tests passed: the original 31 plus 10 targeted submission/regression checks.                                                |
-| Final `npm run build`    | Succeeded after the application fixes.                                                                                                  |
-| `npm run demo:record`    | Succeeded with fictional tasks in isolated storage; checked the workflow, counts, layout bounds, and absence of console/runtime errors. |
-| Saved video playback     | 18.08-second, 1440 x 1100 WebM decoded and played successfully in Chromium.                                                             |
-| Visual inspection        | Opened and inspected all four saved screenshots, plus a frame from the saved video.                                                     |
+| Check                       | Actual result                                                                                                                           |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Utility tests               | 18 passed in the earlier run. Those results were reused because the utility source and utility tests were unchanged.                    |
+| Final `npm run test:e2e`    | 41 Chromium tests passed: the original 31 plus 10 targeted submission/regression checks.                                                |
+| Final `npm run build`       | Succeeded after the application fixes.                                                                                                  |
+| `npm run demo:record`       | Succeeded with fictional tasks in isolated storage; checked the workflow, counts, layout bounds, and absence of console/runtime errors. |
+| Final edited video playback | 34.96-second, 1440 x 1280 MP4 verified in Chromium: normal-speed samples and full playback to the end at 4x, with no media error.       |
+| Visual inspection           | Opened and inspected all four saved screenshots, plus a frame from the saved video.                                                     |
 
 The new checks cover focus after disappearing controls, sidebar/tab consistency, edit-filter fallback focus, repeated live-region updates, partial date entry, and skip-link/empty-state actions. Browser coverage is Chromium only; physical-device, Firefox, Safari, and screen-reader testing were not performed. See [the verification report](docs/verification.md) for scope and fixes.
 
@@ -160,15 +160,15 @@ These captures contain only fictional community-workshop tasks. The capture cont
 - [Populated mobile layout](docs/screenshots/mobile.png)
 - [Edit dialog](docs/screenshots/edit-dialog.png)
 - [Inline validation error with preserved input](docs/screenshots/validation-errors.png)
-- [Short recorded demo: add, edit, complete, filter, refresh](docs/demo/taskflow-demo.webm)
+- [Final edited demo: add, edit, complete, filter, refresh](docs/demo/taskflow-demo-final.mp4)
 
-To regenerate the images and silent demo, leave the development server running at `http://127.0.0.1:5173` and run:
+The final edited MP4 is the submission video. To regenerate screenshots and an unedited source recording, leave the development server running at `http://127.0.0.1:5173` and run:
 
 ```sh
 npm run demo:record
 ```
 
-The script launches a fresh, nonpersistent Playwright context; it does not connect to your normal browser or change its saved tasks. It overwrites only the intended demo assets under `docs/`.
+The script launches a fresh, nonpersistent Playwright context; it does not connect to your normal browser or change its saved tasks. It updates the intended screenshots under `docs/screenshots/` and saves a raw WebM source at `test-results/demo-source/taskflow-demo-source.webm`, which is ignored by Git. It does not regenerate or overwrite `docs/demo/taskflow-demo-final.mp4`; the final MP4 is a separately edited deliverable.
 
 ## Manual Checklist
 

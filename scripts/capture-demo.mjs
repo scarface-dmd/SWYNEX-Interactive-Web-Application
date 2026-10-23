@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium, expect } from "@playwright/test";
 
@@ -12,6 +13,9 @@ assert.equal(
 );
 const output = (path) =>
   fileURLToPath(new URL(`../docs/${path}`, import.meta.url));
+const sourceDirectory = fileURLToPath(
+  new URL("../test-results/demo-source/", import.meta.url),
+);
 const fictionalTasks = [
   {
     id: "workshop",
@@ -65,7 +69,7 @@ const context = await browser.newContext({
       },
     ],
   },
-  recordVideo: { dir: output("demo"), size: { width: 1440, height: 1100 } },
+  recordVideo: { dir: sourceDirectory, size: { width: 1440, height: 1100 } },
 });
 const page = await context.newPage();
 page.on("pageerror", (error) => errors.push(error.message));
@@ -238,7 +242,7 @@ try {
 } finally {
   const video = page.video();
   await context.close();
-  await video.saveAs(output("demo/taskflow-demo.webm"));
+  await video.saveAs(join(sourceDirectory, "taskflow-demo-source.webm"));
   await video.delete();
   await browser.close();
 }
@@ -246,4 +250,7 @@ try {
 console.log(
   "Saved docs/screenshots/{desktop,mobile,edit-dialog,validation-errors}.png",
 );
-console.log("Saved docs/demo/taskflow-demo.webm");
+console.log(
+  "Saved raw source: test-results/demo-source/taskflow-demo-source.webm",
+);
+console.log("Preserved final edited video: docs/demo/taskflow-demo-final.mp4");
