@@ -2,6 +2,12 @@
 
 TaskFlow is a personal task manager built for **SWYNEX Frontend Internship, Task 2**. It provides a responsive workspace for creating, organizing, and tracking tasks, with data stored locally in the browser. No account, backend, or API credentials are required.
 
+## Live Demo
+
+**[Open TaskFlow on GitHub Pages](https://scarface-dmd.github.io/SWYNEX-Interactive-Web-Application/)**
+
+The live app was verified in an isolated browser: JavaScript, CSS, and favicon loaded successfully; adding, editing, completing a task, and restoring it after refresh all passed. The live site's browser storage is separate from local development storage.
+
 ## Requirements Mapping
 
 | Requirement          | Implementation                                                                                                     | Source                                                                       |
@@ -55,7 +61,15 @@ npm run build
 npm run preview
 ```
 
-The build writes static output to `dist/`. Preview serves that build locally, normally at `http://127.0.0.1:4173`; use the URL printed in the terminal. Preview is for checking the production build, not a production hosting service.
+The build writes static output to `dist/`. Preview serves that build locally, normally at `http://127.0.0.1:4173/SWYNEX-Interactive-Web-Application/`; use the URL printed in the terminal. Preview is for checking the production build, not a production hosting service.
+
+## GitHub Pages Deployment
+
+`.github/workflows/deploy-pages.yml` runs on pushes to `main` and supports manual dispatch. It uses Node.js 22, installs the existing lockfile with `npm ci`, runs the utility tests, builds with Vite, uploads only `dist/`, and deploys it using GitHub Pages Actions. Pages is configured to use GitHub Actions rather than a branch folder.
+
+Vite uses `/SWYNEX-Interactive-Web-Application/` as the production and preview base path, so the JavaScript, CSS, and favicon resolve correctly on the project site. Local development retains `/`, preserving the existing test and capture URLs. The final edited MP4 remains in the repository unchanged; it is not part of the app's `dist/` bundle.
+
+The production build and 18 utility tests passed locally and in the Pages workflow. A Chromium production-preview check and a separate Firefox live-site check passed the add/edit/complete/refresh workflow and mobile overflow checks without browser errors. Live verification used Firefox with TLS 1.2 because this machine's network reset newer TLS connections. Certificate validation stayed enabled; no certificate exception or transport workaround was added to the application.
 
 ## Project Structure
 
@@ -92,6 +106,9 @@ docs/
   verification.md        Actual verification results and limitations
   screenshots/           Fictional-task desktop, mobile, edit, validation images
   demo/                  Final edited MP4 demo
+.github/
+  workflows/
+    deploy-pages.yml      Build and deploy the production app to GitHub Pages
 vite.config.js
 .gitignore
 README.md
@@ -150,7 +167,7 @@ Verification completed on **October 23, 2026**:
 | Final edited video playback | 34.96-second, 1440 x 1280 MP4 verified in Chromium: normal-speed samples and full playback to the end at 4x, with no media error.       |
 | Visual inspection           | Opened and inspected all four saved screenshots, plus a frame from the saved video.                                                     |
 
-The new checks cover focus after disappearing controls, sidebar/tab consistency, edit-filter fallback focus, repeated live-region updates, partial date entry, and skip-link/empty-state actions. Browser coverage is Chromium only; physical-device, Firefox, Safari, and screen-reader testing were not performed. See [the verification report](docs/verification.md) for scope and fixes.
+The new checks cover focus after disappearing controls, sidebar/tab consistency, edit-filter fallback focus, repeated live-region updates, partial date entry, and skip-link/empty-state actions. The full browser suite remains Chromium-only. A separate Firefox smoke check of the deployed site is described above; physical-device, Safari, and screen-reader testing were not performed. See [the pre-deployment verification report](docs/verification.md) for the original testing scope and fixes.
 
 ## Screenshots And Demo
 
@@ -185,4 +202,4 @@ Keep the complete application source, public assets, package metadata and lockfi
 
 The `.gitignore` excludes generated/dependency output such as `node_modules/`, `dist/`, `coverage/`, `playwright-report/`, and `test-results/`, along with environment files, local editor/tool configuration, authentication artifacts, logs, and common private-key formats. Intended screenshots and the demo video under `docs/` remain included.
 
-The Git repository is rooted inside `SWYNEX-Interactive-Web-Application`, so only this project folder is included, not the enclosing Desktop or user directory. The source handoff includes the reviewed application, tests, documentation, screenshots, and demo recording. Publishing source to GitHub does not deploy the application or submit the SWYNEX form. No deployment URL is claimed.
+The Git repository is rooted inside `SWYNEX-Interactive-Web-Application`, so only this project folder is included, not the enclosing Desktop or user directory. The source handoff includes the reviewed application, tests, documentation, screenshots, and demo recording. The application is deployed through the GitHub Pages workflow at the verified live URL above. Deployment does not submit the SWYNEX form or publish a LinkedIn post.
